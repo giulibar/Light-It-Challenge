@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import "../addPatientModal.css";
 import { addPatient } from "../services/patientService";
+import FileDrop from "./fileDropZone";
+
 
 const AddPatientModal = ({ onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -50,7 +52,7 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setFormData({  ...formData, documentPhoto: file });
+    setFormData({ ...formData, documentPhoto: file });
   };
 
   const handleSubmit = async (e) => {
@@ -124,25 +126,11 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
             </div>
           </div>
 
-          <div className="form-group file-drop" onDrop={handleFileDrop} onDragOver={(e) => e.preventDefault()}>
-            <label>Document Photo (JPG)</label>
-            <p>Drag & Drop file here</p>
-            {formData.documentPhoto && <span>{formData.documentPhoto.name}</span>}
-            {errors.documentPhoto && <span className="error">{errors.documentPhoto}</span>}
-            {/* 🔥 Botón para abrir el explorador */}
-            <button type="button" onClick={() => fileInputRef.current.click()}>
-              Select File
-            </button>
+          <FileDrop
+            onFileSelect={(file) => setFormData((prev) => ({ ...prev, documentPhoto: file }))}
+            error={errors.documentPhoto}
+          />
 
-            {/* 🔥 Input oculto */}
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept="image/jpeg"
-              style={{ display: "none" }}
-            />
-          </div>
 
           <div className="button-group">
             <button type="submit">Submit</button>
