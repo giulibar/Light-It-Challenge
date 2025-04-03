@@ -27,8 +27,8 @@ const App = () => {
   };
 
   const handlePatientSubmit = () => {
-    fetchPatients(); // Recarga la lista de pacientes después de agregar uno nuevo
-    setIsModalOpen(false); // Cierra el modal
+    fetchPatients();
+    setIsModalOpen(false); 
   };
 
   if (loading) return <div>Loading...</div>;
@@ -60,7 +60,7 @@ const App = () => {
       {isModalOpen && (
         <AddPatientModal 
           onClose={() => setIsModalOpen(false)} 
-          onSubmit={handlePatientSubmit}  // Pasa la función aquí
+          onSubmit={handlePatientSubmit} 
         />
       )}
     </div>

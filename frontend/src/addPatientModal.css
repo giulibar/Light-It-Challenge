@@ -1,70 +1,85 @@
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    animation: fadeIn 0.3s ease-in-out;
-    width: 50%;
-    max-width: 500px; 
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  width: 50%;
+  max-width: 500px;
 }
 
-
 .form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.email-name-group,
+.phone-group {
+  display: flex;
+  gap: 20px;
+}
+
+.phone-extension,
+.phone-number,
+.name,
+.email {
+  flex: 1;
+}
+
+.email-name-group input,
+.phone-group input {
+  width: 100%;
 }
 
 .error {
-    color: red;
-    font-size: 12px;
-    display: block;
+  color: red;
+  font-size: 12px;
+  display: block;
 }
 
 .success-msg {
-    color: green;
-    font-size: 14px;
+  color: green;
+  font-size: 14px;
 }
 
 .error-msg {
-    color: red;
-    font-size: 14px;
+  color: red;
+  font-size: 14px;
 }
 
 .file-drop {
-    border: 2px dashed gray;
-    padding: 20px;
+  border: 2px dashed gray;
+  padding: 20px;
 }
 
-.close-btn {
-    margin-top: 10px;
-    background: red;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
 }
 
-.phone-group {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .phone-group .phone-extension,
-  .phone-group .phone-number {
-    flex: 1;
-  }
-  
+.button-group button {
+  width: 50%;
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button-group button:hover {
+  background-color: #aaaaaa;
+  color: white;
+}

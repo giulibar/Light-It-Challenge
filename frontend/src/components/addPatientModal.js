@@ -18,12 +18,8 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
   const validate = () => {
     let newErrors = {};
 
-    if (!/^[A-Za-z\s]+$/.test(formData.fullName)) {
-      newErrors.fullName = "Only letters allowed.";
-    }
-
-    if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(formData.email)) {
-      newErrors.email = "Email must be @gmail.com";
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+      newErrors.email = "Incorrecr email";
     }
 
     if (!formData.documentPhoto) {
@@ -55,7 +51,6 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
       newPatient.append("email", formData.email);
       newPatient.append("document", formData.documentPhoto);
 
-      // Concatenar extensión y número
       const fullPhoneNumber = `${formData.phoneNumberExtension}-${formData.phoneNumber}`;
       newPatient.append("phoneNumber", fullPhoneNumber);
 
@@ -74,32 +69,33 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
       <div className="modal-content">
         <h2>Add Patient</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Full Name</label>
-            <input
-              type="text"
-              value={formData.fullName}
-              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-            />
-            {errors.fullName && <span className="error">{errors.fullName}</span>}
+          <div className="form-group email-name-group">
+            <div className="email">
+              <label>Full Name</label>
+              <input
+                type="text"
+                value={formData.fullName}
+                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+              />
+              {errors.fullName && <span className="error">{errors.fullName}</span>}
+            </div>
+
+            <div className="email">
+              <label>Email</label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+              {errors.email && <span className="error">{errors.email}</span>}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            />
-            {errors.email && <span className="error">{errors.email}</span>}
-          </div>
-
-          {/* Agrupar los dos campos en una misma línea */}
           <div className="form-group phone-group">
             <div className="phone-extension">
               <label>Ext</label>
               <input
-                type="text"
+                type="number"
                 value={formData.phoneNumberExtension}
                 onChange={(e) => setFormData({ ...formData, phoneNumberExtension: e.target.value })}
               />
@@ -108,7 +104,7 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
             <div className="phone-number">
               <label>Phone Number</label>
               <input
-                type="text"
+                type="number"
                 value={formData.phoneNumber}
                 onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
               />
@@ -123,13 +119,15 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
             {errors.documentPhoto && <span className="error">{errors.documentPhoto}</span>}
           </div>
 
-          <button type="submit">Submit</button>
+          <div className="button-group">
+            <button type="submit">Submit</button>
+            <button type="button" className="close-btn" onClick={onClose}>Close</button>
+          </div>
         </form>
+
 
         {submitStatus === "success" && <p className="success-msg">Patient added successfully!</p>}
         {submitStatus === "error" && <p className="error-msg">{submitError}</p>}
-
-        <button className="close-btn" onClick={onClose}>Close</button>
       </div>
     </div>
   );
