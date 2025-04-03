@@ -20,4 +20,16 @@ services:
       POSTGRES_PASSWORD: password  
       POSTGRES_DB: patient_db  
     ports:
-      - "5432:5432" 
+      - "5432:5432"  
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3001:3000" 
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    environment:
+      - PORT=3000  
