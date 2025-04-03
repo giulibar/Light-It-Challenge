@@ -1,5 +1,5 @@
-const patientService = require('../services/patient.service');
-const notification = require('../services/notification');
+const patientService = require('../services/patientService');
+const NotificationManager = require('../services/notificationManager');
 
 exports.getAllPatients = async (req, res, next) => {
     try {
@@ -18,11 +18,18 @@ exports.createPatient = async (req, res, next) => {
         };
 
         const patient = await patientService.createPatient(patientData);
+
         try {
-            await notification.sendEmail(patient.email, patient.fullName);
+            const notificationManager = new NotificationManager();
+            const to = patient.email; 
+            const subject = "¡Gracias por registrarte!";
+            const text = `Hola ${patient.fullName}, gracias por registrarte en nuestro sistema.`;
+            const html = `<h1>¡Hola ${patient.fullName}!</h1><p>Gracias por registrarte en nuestro sistema.</p>`;
+            await notificationManager.sendNotification('email', to, subject, text, html);
         } catch (error) {
-            console.error("Error sending email:", error);
+            console.error("Error al enviar el correo de agradecimiento:", error);
         }
+
         res.status(201).json(patient);
     } catch (error) {
         next(error);
