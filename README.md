@@ -12,8 +12,9 @@ Este es un proyecto que utiliza Docker para levantar un backend y una base de da
 1. Clonar repositorio:
 git clone <URL_DEL_REPOSITORIO>
 
-2. Entrar al proyecto:
-cd <nombre-del-repositorio>
+2. Crear la carpeta 'files' dentro de backend para almacenar los archivos subidos
 
 3. Iniciar los contenedores en docker: 
 docker-compose up --build
+
+
