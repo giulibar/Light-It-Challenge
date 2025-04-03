@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../addPatientModal.css";
 import { addPatient } from "../services/patientService";
 
@@ -14,21 +14,28 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
   const [errors, setErrors] = useState({});
   const [submitStatus, setSubmitStatus] = useState("");
   const [submitError, setSubmitError] = useState("");
+  const fileInputRef = useRef(null);
 
   const validate = () => {
     let newErrors = {};
 
-    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+    if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(formData.email)) {
       newErrors.email = "Incorrecr email";
     }
 
-    if (!formData.documentPhoto) {
-      newErrors.documentPhoto = "Document photo is required.";
-    } else if (!formData.documentPhoto.name.endsWith(".jpg")) {
-      newErrors.documentPhoto = "Only .jpg images allowed.";
+    if (!formData.fullName || !/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(formData.fullName)) {
+      newErrors.fullName = "Only letters allowed";
     }
+
+
+    if (!formData.documentPhoto) {
+      newErrors.documentPhoto = "Photo  of the document required.";
+    } else if (!formData.documentPhoto.name.endsWith(".jpg")) {
+      newErrors.documentPhoto = "Only .jpg images allowed";
+    }
+
     if (!formData.phoneNumberExtension || !formData.phoneNumber) {
-      newErrors.phoneNumberExtension = "Phone number is required.";
+      newErrors.phoneNumberExtension = "Phone number is required";
     }
 
     setErrors(newErrors);
@@ -39,6 +46,11 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     setFormData({ ...formData, documentPhoto: file });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({  ...formData, documentPhoto: file });
   };
 
   const handleSubmit = async (e) => {
@@ -117,6 +129,19 @@ const AddPatientModal = ({ onClose, onSubmit }) => {
             <p>Drag & Drop file here</p>
             {formData.documentPhoto && <span>{formData.documentPhoto.name}</span>}
             {errors.documentPhoto && <span className="error">{errors.documentPhoto}</span>}
+            {/* 🔥 Botón para abrir el explorador */}
+            <button type="button" onClick={() => fileInputRef.current.click()}>
+              Select File
+            </button>
+
+            {/* 🔥 Input oculto */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/jpeg"
+              style={{ display: "none" }}
+            />
           </div>
 
           <div className="button-group">
