@@ -1,4 +1,5 @@
 const patientService = require('../services/patient.service');
+const notification = require('../services/notification');
 
 exports.getAllPatients = async (req, res, next) => {
     try {
@@ -17,6 +18,11 @@ exports.createPatient = async (req, res, next) => {
         };
 
         const patient = await patientService.createPatient(patientData);
+        try {
+            await notification.sendEmail(patient.email, patient.fullName);
+        } catch (error) {
+            console.error("Error sending email:", error);
+        }
         res.status(201).json(patient);
     } catch (error) {
         next(error);
